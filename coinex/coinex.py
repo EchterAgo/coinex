@@ -90,10 +90,10 @@ class CoinEx:
             headers.update(Authorization=self._sign(params))
 
         if method == 'post':
-            resp = requests.post('https://api.coinex.com/v1/' + path, json=params, headers=headers, verify=False)
+            resp = requests.post('https://api.coinex.com/v1/' + path, json=params, headers=headers)
         else:
             fn = getattr(requests, method)
-            resp = fn('https://api.coinex.com/v1/' + path, params=params, headers=headers, verify=False)
+            resp = fn('https://api.coinex.com/v1/' + path, params=params, headers=headers)
 
         return self._process_response(resp)
 
