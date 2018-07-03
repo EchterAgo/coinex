@@ -23,6 +23,9 @@ class CoinEx:
     def market_ticker(self, market):
         return self._v1('market/ticker', market=market)
 
+    def market_ticker_all(self):
+        return self._v1('market/ticker/all')
+
     def market_depth(self, market, merge='0.00000001', **params):
         return self._v1('market/depth', market=market, merge=merge, **params)
 

@@ -12,6 +12,9 @@ print(list)
 ticker = coinex.market_ticker('BTCBCH')
 print(ticker)
 
+ticker_all = coinex.market_ticker_all()
+print(ticker_all)
+
 depth = coinex.market_depth('BTCBCH')
 print(depth)
 
