@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name='coinex',
+    name='coinex.py',
     version='1.0.0',
     author='Axel Gembe',
 	author_email='derago@gmail.com',
