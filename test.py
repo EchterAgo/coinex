@@ -1,4 +1,4 @@
-from coinex import CoinEx, CoinExApiError
+from coinex.coinex import CoinEx, CoinExApiError
 
 # Fill these in
 COINEX_ACCESS_ID=''
