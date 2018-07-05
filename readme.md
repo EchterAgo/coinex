@@ -5,13 +5,13 @@ A minimal [coinex.com API](https://github.com/coinexcom/coinex_exchange_api/wiki
 ## installation
 
 ```
-pip install coinex
+pip install coinex.py
 ```
 
 ## usage
 
 ```python
-from coinex import CoinEx
+from coinex.coinex import CoinEx
 from somewhere_else import access_id, secret
 
 coinex = CoinEx(access_id, secret)
