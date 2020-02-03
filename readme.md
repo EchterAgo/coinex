@@ -18,12 +18,12 @@ coinex = CoinEx(access_id, secret)
 
 # public API
 coinex.market_list()
-coinex.market_ticker('BTCBCH')
-coinex.market_depth('BTCBCH')
-coinex.market_deals('BTCBCH')
+coinex.market_ticker('BCHBTC')
+coinex.market_depth('BCHBTC')
+coinex.market_deals('BCHBTC')
 
 # private API
-coinex.balance()
+coinex.balance_info()
 coinex.balance_coin_withdraw_list()
 coinex.balance_coin_withdraw('BCH', 'qzjtuuc9nafvfhmwt47z84awltp9gmx7wyma3kvy9v', 0.001)
 coinex.balance_coin_withdraw_list(coin_withdraw_id=2465345342)
@@ -39,4 +39,3 @@ coinex.order_user_deals('CETBCH')
 coinex.order_pending_cancel('CETBCH', 2465345342)
 coinex.order_mining_difficulty()
 ```
-

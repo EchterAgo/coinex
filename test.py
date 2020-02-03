@@ -1,27 +1,32 @@
 from coinex.coinex import CoinEx, CoinExApiError
 
 # Fill these in
-COINEX_ACCESS_ID=''
-COINEX_SECRET=''
+COINEX_ACCESS_ID='749F798C7BC94F43A98A126498C24E13'
+COINEX_SECRET='FDF8DB630FEE433ABA8E958AF5475CF2D0FFA40677B92A91'
 
 coinex = CoinEx(COINEX_ACCESS_ID, COINEX_SECRET)
+
+print(coinex.currency_rate())
+
+info = coinex.market_info()
+print(info)
 
 list = coinex.market_list()
 print(list)
 
-ticker = coinex.market_ticker('BTCBCH')
+ticker = coinex.market_ticker('BCHBTC')
 print(ticker)
 
 ticker_all = coinex.market_ticker_all()
 print(ticker_all)
 
-depth = coinex.market_depth('BTCBCH')
+depth = coinex.market_depth('BCHBTC')
 print(depth)
 
 deals = coinex.market_deals('BTCUSDT')
 print(deals)
 
-balance = coinex.balance()
+balance = coinex.balance_info()
 print(balance)
 bch_available = balance['BCH']['available']
 
