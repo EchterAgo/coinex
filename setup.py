@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='coinex.py',
-    version='1.0.3',
+    version='1.0.4',
     author='Axel Gembe',
 	author_email='derago@gmail.com',
     description='coinex.com API wrapper',
