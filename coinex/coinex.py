@@ -25,6 +25,9 @@ class CoinEx:
 
     def market_list(self):
         return self._v1('market/list')
+    
+    def amm_list(self):
+        return self._v1('amm/market')
 
     def market_ticker(self, market):
         return self._v1('market/ticker', market=market)
