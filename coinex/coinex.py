@@ -201,7 +201,7 @@ class CoinEx:
         resp.raise_for_status()
 
         data = resp.json()
-        if data['code'] is not 0:
+        if data['code'] != 0:
             raise CoinExApiError(data['message'])
 
         return data['data']
