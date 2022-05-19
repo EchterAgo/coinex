@@ -39,3 +39,19 @@ coinex.order_user_deals('CETBCH')
 coinex.order_pending_cancel('CETBCH', 2465345342)
 coinex.order_mining_difficulty()
 ```
+
+## Use with proxy
+```python
+# pip3 install PySocks # for using socks5
+
+from coinex.coinex import CoinEx
+from somewhere_else import access_id, secret
+proxies = {
+    ## use this for TOR
+            'http': 'socks5h://127.0.0.1:9050',
+            'https': 'socks5h://127.0.0.1:9050'
+            }
+coinex = CoinEx(access_id, secret,proxies)
+
+## ... 
+```

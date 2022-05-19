@@ -13,9 +13,22 @@ class CoinEx:
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
         }
 
-    def __init__(self, access_id=None, secret=None):
+    def __init__(self, access_id=None, secret=None, proxies=None):
+        """Coinex API python wapper
+
+        to set proxy, use this format:
+
+        >>> ## use this for TOR 
+        >>> # pip3 install PySocks # for using socks5
+        >>>{
+            'http': 'socks5h://127.0.0.1:9050',
+            'https': 'socks5h://127.0.0.1:9050'
+            }
+
+        """
         self._access_id = access_id
         self._secret = secret
+        self._proxies = proxies
 
     def currency_rate(self):
         return self._v1('common/currency/rate')
@@ -177,10 +190,10 @@ class CoinEx:
             headers.update(Authorization=self._sign(params))
 
         if method == 'post':
-            resp = requests.post('https://api.coinex.com/v1/' + path, json=params, headers=headers)
+            resp = requests.post('https://api.coinex.com/v1/' + path, json=params, headers=headers, proxies=self._proxies)
         else:
             fn = getattr(requests, method)
-            resp = fn('https://api.coinex.com/v1/' + path, params=params, headers=headers)
+            resp = fn('https://api.coinex.com/v1/' + path, params=params, headers=headers, proxies=self._proxies)
 
         return self._process_response(resp)
 
@@ -188,7 +201,7 @@ class CoinEx:
         resp.raise_for_status()
 
         data = resp.json()
-        if data['code'] is not 0:
+        if data['code'] != 0:
             raise CoinExApiError(data['message'])
 
         return data['data']
