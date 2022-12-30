@@ -38,4 +38,15 @@ coinex.order_deals(2465345342)
 coinex.order_user_deals('CETBCH')
 coinex.order_pending_cancel('CETBCH', 2465345342)
 coinex.order_mining_difficulty()
+
+#public perpetual API
+coinex.perpetual_market_depth(BTCUSDT, 0.1, 20)
+
+#private perpetual API
+coinex.perpetual_balance_info()
+coinex.perpetual_pending_positions()
+coinex.perpetual_order_market(market="BTCUSDT", side=1, amount=0.001)
+coinex.perpetual_order_limit(market="BTCUSDT", side=1, amount=0.001, price=18000)
+coinex.perpetual_order_cancel(21827192)
+coinex.perpetual_order_status(21827192)
 ```
