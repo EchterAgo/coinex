@@ -3,8 +3,10 @@ import time
 import requests
 import collections
 
+
 class CoinExApiError(Exception):
     pass
+
 
 class CoinEx:
     _headers = {
@@ -161,6 +163,25 @@ class CoinEx:
     def order_mining_difficulty(self):
         return self._v1('order/mining/difficulty', method='get', auth=True)
 
+    def _v1_perpetual(self, path, method='get', auth=False, **params):
+        headers = dict(self._headers)
+
+        if auth:
+            if not self._access_id or not self._secret:
+                raise CoinExApiError('API keys not configured')
+
+            params.update(timestamp=int(time.time() * 1000))
+            headers.update(Authorization=self._sign(params, is_future=True))
+            headers.update(AccessId=self._access_id)
+
+        params = collections.OrderedDict(sorted(params.items()))
+        if method == 'post':
+            resp = requests.post('https://api.coinex.com/perpetual/v1/' + path, data=params, headers=headers)
+        else:
+            fn = getattr(requests, method)
+            resp = fn('https://api.coinex.com/perpetual/v1/' + path, params=params, headers=headers)
+        return self._process_response(resp)
+
     def _v1(self, path, method='get', auth=False, **params):
         headers = dict(self._headers)
 
@@ -193,8 +214,32 @@ class CoinEx:
 
         return data['data']
 
-    def _sign(self, params):
+    def _sign(self, params, is_future: bool = False):
         data = '&'.join([key + '=' + str(params[key]) for key in sorted(params)])
         data = data + '&secret_key=' + self._secret
         data = data.encode()
+        if is_future:
+            return hashlib.sha256(data).hexdigest().lower()
         return hashlib.md5(data).hexdigest().upper()
+
+    def perpetual_balance_info(self, **params):
+        return self._v1_perpetual('asset/query', auth=True, **params)
+
+    def perpetual_pending_positions(self, **params):
+        return self._v1_perpetual('position/pending', auth=True, **params)
+
+    #  Order Side Is Either 1 (Sell) Or 2 (Buy)
+    def perpetual_order_market(self, market, side, amount, **params):
+        return self._v1_perpetual('order/put_market', method='post', auth=True, market=market, side=side, amount=amount, **params)
+
+    def perpetual_order_limit(self, market, side, amount, price, **params):
+        return self._v1_perpetual('order/put_limit', method='post', auth=True, market=market, side=side, amount=amount, price=price, **params)
+
+    def perpetual_order_cancel(self, market, order_id, **params):
+        return self._v1_perpetual('order/cancel', method='post', auth=True, market=market, order_id=order_id, **params)
+
+    def perpetual_order_status(self, market, order_id, **params):
+        return self._v1_perpetual('order/status', method='get', auth=True, market=market, order_id=order_id, **params)
+
+    def perpetual_market_depth(self, market, merge, limit=20, **params):
+        return self._v1_perpetual('market/depth', market=market, limit=limit, merge=merge, **params)
